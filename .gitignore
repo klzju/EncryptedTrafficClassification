@@ -1,5 +1,8 @@
-/models
+/models_save
+/paper
 /results
+/data
 /figs
+/csv
 *.csv
 *.npy

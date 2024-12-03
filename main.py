@@ -1,9 +1,8 @@
 import argparse
 import os
 import logging
-from train_test import knn_learning, knn_predict, rf_learning, rf_predict, \
-    mlp_learning, mlp_predict, lstm_learning, lstm_predict, \
-    fingerprint_learning, fingerprint_predict
+from train_test import knn_learning, knn_predict, rf_learning, rf_predict, mlp_learning, mlp_predict, lstm_learning, \
+    lstm_predict, fingerprint_learning, fingerprint_predict
 from utils import check_path, parse_str_dim, get_logger
 
 if __name__ == '__main__':
@@ -26,6 +25,7 @@ if __name__ == '__main__':
     args.add_argument('--model_path', type=str, required=True)
     args.add_argument('--model_name', type=str, required=True)
     args.add_argument('--save_path', type=str, required=False, default='.')
+
     args.add_argument('--save_name', type=str, required=False, default=None)
     args.add_argument('--feature_choice', type=str, required=False, default=None,
                       help='name of choice file without suffix .joblib')

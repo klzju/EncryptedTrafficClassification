@@ -1,5 +1,4 @@
 import os
-
 import joblib
 import torch
 from torch import nn
@@ -49,10 +48,10 @@ class FingerprintModule(nn.Module):
             else:
                 h_n, c_n = self.lstm_unit(xi, (h_n, c_n))
             if i < self.seq_dim - 1:
-                if i+1 >= x.size(1):
+                if i + 1 >= x.size(1):
                     xi1 = torch.ones_like(x[:, 0, :]) * -1
                 else:
-                    xi1 = x[:, i+1, :]
+                    xi1 = x[:, i + 1, :]
                 if i == 0:
                     loss = torch.sqrt(torch.square(h_n - xi1).sum(dim=1))
                     loss_dim = torch.sqrt(torch.square(h_n - xi1))

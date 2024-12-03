@@ -289,7 +289,7 @@ def mlp_predict(data_dir, class_choice, scale, batch_size,
     :param model_name: str
     :param save_path: str result save path
     :param save_name: str
-    :param fields_file: str full path of fields file
+    :param fields_file: str full path of fields filemodels
     :param feature_choice: file of selected feature index .joblib
     :param gpu: bool
     :return: None
@@ -574,7 +574,7 @@ def fingerprint_learning(logger, data_dir, class_choice, scale, batch_size, inpu
 
     total_time = 0
     for idx, c in enumerate(class_choice):
-        logger.info('[INFO] training fingerprint module [{0}/{1}]'.format(idx + 1, len(class_choice)))
+        logger.info('training fingerprint module [{0}/{1}]'.format(idx + 1, len(class_choice)))
         dataset = TrafficDataset(data_dir, [c], scale, fields_file, 'train')
         dataloader = torch.utils.data.DataLoader(dataset, batch_size=batch_size, shuffle=True)
         if feature_choice is not None:
@@ -590,7 +590,7 @@ def fingerprint_learning(logger, data_dir, class_choice, scale, batch_size, inpu
         elapsed = train_fingerprint(n_epochs[idx], dataloader, model, device, optimizer,
                                     model_path, '_'.join([model_name, c]))
         total_time += elapsed
-    logger.info('[INFO] Total train time (s): {0:.4f}'.format(total_time))
+    logger.info('Total train time (s): {0:.4f}'.format(total_time))
 
 
 def fingerprint_predict(data_dir, class_choice, scale, batch_size, input_dims, encoding_dims, seq_dims,
