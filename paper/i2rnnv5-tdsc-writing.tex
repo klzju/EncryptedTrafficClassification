@@ -1,0 +1,90 @@
+\documentclass[10pt,journal,compsoc]{IEEEtran}
+
+\usepackage[nocompress]{cite}
+\usepackage{amsmath,amsfonts}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{array}
+\usepackage[caption=false,font=footnotesize,labelfont=sf,textfont=sf]{subfig}
+\usepackage{url}
+\usepackage{textcomp}
+\usepackage{stfloats}
+\usepackage{verbatim}
+\usepackage{graphicx}
+\usepackage{cite}
+%\usepackage{hyperref}
+\usepackage{xspace}
+\usepackage{color}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{tabularx}
+\usepackage{bigstrut}
+\usepackage{booktabs}
+\usepackage{bbding}
+%\usepackage[nomarkers]{endfloat}
+
+\let\MYoriglatexcaption\caption
+\renewcommand{\caption}[2][\relax]{\MYoriglatexcaption[#2]{#2}}
+
+\hyphenation{op-tical net-works semi-conduc-tor}
+
+\newcommand{\sys}{I$^2$RNN\xspace}
+\newcommand{\papertitle}{\sys: An Incremental and Interpretable Recurrent Neural Network for Encrypted Traffic Classification}
+\newcommand{\etal}{et al.\xspace}
+\newcommand{\ie}{i.e.,\xspace}
+\newcommand{\eg}{e.g.,\xspace}
+\newcommand{\todo}[1]{\textcolor{yellow}{TODO: #1}}
+\newcommand{\first}{\textsf{(i)}\xspace}
+\newcommand{\second}{\textsf{(ii)}\xspace}
+\newcommand{\third}{\textsf{(iii)}\xspace}
+\newcommand{\forth}{\textsf{(iv)}\xspace}
+\newcommand{\five}{\textsf{(v)}\xspace}
+
+\begin{document}
+
+\title{\papertitle}
+
+\input{authors.tex}
+
+% The paper headers
+\markboth{IEEE TRANSACTIONS ON DEPENDABLE AND SECURE COMPUTING, VOL. 19, NO. 1, JANUARY/FEBRUARY 2022}%
+{Zhuoxue Song \MakeLowercase{\textit{et al.}}: \papertitle}
+
+% use for special paper notices
+%\IEEEspecialpapernotice{(Invited Paper)}
+
+\IEEEtitleabstractindextext{
+\input{abstract.tex}
+\input{keywords.tex}
+}
+
+\maketitle
+
+\IEEEdisplaynontitleabstractindextext
+
+\IEEEpeerreviewmaketitle
+
+\input{sec1-introduction.tex}
+\input{sec2-related_work.tex}
+\input{sec3-preliminaries.tex}
+\input{sec4-proposed_traffic_classification_method.tex}
+\input{sec5-model_interpretability.tex}
+\input{sec6-evaluation.tex}
+\input{sec7-discussion.tex}
+\input{sec8-conclusions.tex}
+\input{acknowledgements.tex}
+
+\bibliographystyle{IEEEtran}
+\bibliography{IEEEabrv, ref}
+
+\input{biography.tex}
+
+\vfill
+
+% Can be used to pull up biographies so that the bottom of the last one
+% is flush with the other column.
+%\enlargethispage{-5in}
+
+\end{document}
+
+

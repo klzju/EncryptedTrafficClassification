@@ -1,0 +1,11 @@
+\section{Conclusions}
+\label{sec:Conclusions}
+In this paper,  we have presented \sys, an incremental and interpretable recurrent neural network model for encrypted traffic classification. 
+The \sys learns fingerprints from the raw session sequences, which has local robustness. 
+The \sys considers an incremental learning scenario. % and is designed as an incremental model. 
+It only needs to train an additional set of parameters for the newly added traffic type rather than retraining the whole model.  
+Moreover, the \sys is an interpretable model, which provides the feature attribution globally and locally. 
+It can also depict the similarity between traffic types through inter-class distance.
+The evaluation results on two public datasets demonstrate that our \sys can achieve remarkable performance in terms of encrypted traffic classification, incremental learning, and model interpretability. 
+In performance comparison with well-known local interpretability methods, our \sys exhibits excellent stability, robustness, and effectiveness in the interpretation of network traffic data. 
+In future work,  we plan to investigate effective techniques for identifying new types of traffic automatically and updating the learned fingerprints to keep pace with the time evolution of traffic.

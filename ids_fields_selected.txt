@@ -1,0 +1,15 @@
+frame.time_epoch
+frame.len
+ip.flags.df
+ip.ttl
+tcp.window_size
+udp.length
+icmp.type
+icmp.code
+tls.handshake.type
+tls.handshake.cipher_suites_length
+tls.handshake.extensions_length
+ip.frag_offset
+tcp.window_size_value
+dns.count.queries
+http.response.code

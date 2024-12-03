@@ -1,0 +1,39 @@
+\section{Discussion}
+\label{sec:Discussion}
+\sys with fingerprint learning has shown a great advantage in encrypted traffic classification. 
+It can be deployed as a model capable of efficient incremental learning to cope with the ever-increasing types of traffic in the real world. 
+The global level feature ranking and selection help eliminate unnecessary features and alleviate the computational overhead. 
+Moreover, researchers and users can understand the deep insights for the model's predictions from the local feature interpretation with high stability, robustness, and effectiveness. 
+Besides, \sys profiles the differences and relations between traffic types with the inter-class distance portrait. 
+Users can group similar traffic types to improve classification performance in practice. 
+Below, we discuss the identification of new traffic types, model scalability, and limitations. 
+
+\textbf{Where do the new traffic types come from?} Though \sys focuses on coping with the incremental learning scenario, with the ability to incrementally learn new types without accessing past data and retraining the model, it is natural to think about where the new traffic types come from. 
+Currently, the newly labeled data for updating the model are manually proposed by the same party who uses the model for detection.
+We can obtain new application types by collecting relevant information in the application markets such as App Store and Google Play.
+New types of attacks may be reported by researchers after analyzing system logs and traffic data.
+Some arts~\cite{shen2019encrypted,zhang2020autonomous} also propose open-set recognition for encrypted traffic classification, which focus on automatically recognizing and labeling new traffic types.
+\sys could leverage these methods to improve the identification of new traffic types and build a more automatic incremental learning process.
+
+\textbf{What is the scalability of the model?} As the number of fingerprint modules increases, the scalability of the \sys may become a concern for users.
+Here we clarify the scalability of \sys in terms of space and time. 
+In terms of space, each fingerprint module is lightweight and does not take up too much disk space.
+For example, the number of parameters of each fingerprint module trained on ISCXVPN2016 is only 5334. 
+The size of the hard disk space occupied by each fingerprint module is only 23.17 KB. 
+Therefore, even if the fingerprint module continues to increase, there will be no obvious scalability problem in space. 
+In terms of time, since each fingerprint module is independent, the network traffic data can be simultaneously fed into each fingerprint module for parallel computation. 
+Therefore, the computing capacity practically depends on the maximum number of parallel threads the CPU allowed. 
+Furthermore, this computational process can be extended to distributed computing clusters using the idea of MapReduce~\cite{dean2008mapreduce}.
+Fingerprint modules can be deployed on multiple computing nodes.
+When new traffic data arrives, each computing node can calculate the loss for the input traffic in parallel.
+After waiting for all computing nodes to complete the calculation, we can aggregate all losses and give the final prediction results by comparing the outputs of each fingerprint module. 
+Therefore, even if the fingerprint module keeps increasing, the model will also maintain good scalability in time.
+
+\textbf{Limitations and Future Work.} There are still two limitations of \sys. 
+The first limitation is that the fingerprint may be outdated over time as the behavior of the corresponding traffic type may vary at different times.
+Future work can develop some systematic strategies to periodically update the fingerprint modules in \sys. 
+The second limitation is that hyper-parameters of \sys are configured empirically. 
+Future work can investigate the sensitivity of hyper-parameters, and provide brief guidelines about how to configure them.
+
+
+

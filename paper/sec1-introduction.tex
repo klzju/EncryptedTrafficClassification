@@ -1,0 +1,80 @@
+\IEEEraisesectionheading{\section{Introduction}\label{sec:Introduction}}
+
+% The very first letter is a 2 line initial drop letter followed
+% by the rest of the first word in caps (small caps for compsoc).
+% 
+% form to use if the first word consists of a single letter:
+% \IEEEPARstart{A}{demo} file is ....
+% 
+% form to use if you need the single drop letter followed by
+% normal text (unknown if ever used by the IEEE):
+% \IEEEPARstart{A}{}demo file is ....
+% 
+% Some journals put the first two words in caps:
+% \IEEEPARstart{T}{his demo} file is ....
+% 
+% Here we have the typical use of a "T" for an initial drop letter
+% and "HIS" in caps to complete the first word.
+% \IEEEPARstart{T}{his} demo file is ...
+\IEEEPARstart{T}{raffic} classification is important to the entire network for many different purposes, such as network management, Quality of Service (QoS) guarantees,  and cybersecurity~\cite{shi2018efficient, bujlow2015independent,taylor2016appscanner}. %yao2015samples}. 
+Over the last decades, the volume of traffic starts to be encrypted by application-layer encryption transmission protocols, such as Secure Socket Layer/Transport Layer Security (SSL/TLS)~\cite{dierks2008transport, freier2011secure}. 
+Such encryption technology protects the privacy of Internet users, yet it provides attackers chances to evade firewall detection and circumvent surveillance systems. 
+For example, an attacker may exploit encryption technology to invade and attack the system anonymously. 
+That is to say, encryption technology brings new challenges to traffic identification. 
+Therefore, the classification of encrypted traffic has attracted great attention in both academia and industry~\cite{vu2018time}.
+
+Previous traffic classification methods can be roughly divided into four main categories: port-based~\cite{mcpherson2004portvis}, payload-based~\cite{finsterbusch2013survey,moore2005toward}, %sen2004accurate},  
+machine-learning-based (ML-based)~\cite{holland2021new, taylor2017robust}, %cao2014survey,
+and deep-learning-based (DL-based)~\cite{liu2019fs,lotfollahi2017deep}. %wang2017end
+The wide adoption of traffic encryption techniques, such as the SSL/TLS protocols, causes traditional port-based and payload-based methods to nearly fail. The payload values in packets can be considered as totally \emph{randomized} after cryptographic encryption~\cite{velan2015survey}, which are extremely difficult (nearly impossible to some extent) for those port-based and payload-based methods to handle.
+Therefore, many researchers turn to ML-based and DL-based methods, which have become the mainstream methods for encrypted traffic classification nowadays. 
+
+The workflow of traffic classification with machine learning mainly contains two phases, namely feature engineering and model training~\cite{wang2017end}. 
+The former is to design and select statistical features from traffic flows, such as the average packet length, the average interval of packet arrival time, the maximum TCP window size, etc.
+The latter is to feed the features into a specific classification model, \eg SVM~\cite{platt1998sequential}. 
+Both phases will directly affect the eventual performance and effectiveness of the classification.
+Meanwhile,  the ML-based method is especially dependent on the so-called feature selection process which requires the sophisticated experience of those experts in the area.
+Therefore, many \emph{end-to-end} or nearly \emph{end-to-end} methods based on deep learning were proposed as in demand~\cite{zheng2020learning, chen2017seq2img}. %lotfollahi2017deep}. 
+These methods directly use the raw traffic as input and fully automate the feature extraction process.
+
+Nonetheless, there are still some problems with existing state-of-the-art (SOTA) DL-based methods. 
+
+\first \textit{They are not suitable in incremental learning scenarios: } 
+Incremental learning refers to sequentially learning from data for new categories, which are available over time, without accessing past data while preserving the learned knowledge for old categories~\cite{cui2021deepcollaboration}. 
+A fatal limitation of current DL-based traffic classification methods lies in assuming the training data for all categories are always available, making them unsuitable in some real-world situations, where new traffic types are always emerging.
+% \ie training data for new categories are received sequentially. 
+In order to append a new capability of identifying an additional traffic type, a common way in the previous works is to retrain the whole model with the entire dataset, which will consume a lot of computing time and memory resources.
+%The latter may lead to poor traffic classification performance.
+
+\second \textit{They lack interpretability in modeling traffic behavior: }
+An interpretable model allows us to understand how it comes to specific conclusions~\cite{fan2020can}.   %can output humanly understandable summaries of its calculation that
+These DL-based traffic classification methods are designed as end-to-end, which naturally lack interpretability. 
+The calculation process is put into a black-box setting, whose details are hard to infer.
+Specifically, it is much more difficult to grasp the internal cause of inference results. 
+
+In this paper, we propose \sys, an \textbf{I}ncremental and \textbf{I}nterpretable \textbf{R}ecurrent \textbf{N}eural \textbf{N}etwork model for encrypted traffic classification. 
+The \sys leverages fingerprint learning from the raw session sequences rather than manually designed features. 
+A list of fingerprint modules is trained in fingerprint learning. 
+Each fingerprint module is a long short-term memory unit with an encoding layer. 
+The fingerprint modules characterize the patterns of sequential features and thus learn the fingerprints of different traffic types.
+Particularly, 
+\first \sys maintains a set of specific yet \emph{independent} parameters for each traffic type. Therefore, it only needs to train an additional set of parameters for the newly added traffic type. 
+\second \sys is inherently interpretable with respect to time-series feature attribution and inter-class similarity portrait. 
+It determines the traffic type by comparing the output losses of different fingerprint modules.
+Therefore, by decomposing the process of losses comparison, we can provide explanations for the model classification results.
+
+\textbf{Our main contributions can be briefly summarized as below:}
+\begin{itemize}
+	\item We propose \sys, an incremental and interpretable recurrent neural network model for encrypted traffic classification. It learns fingerprints from the raw session sequences and holds local robustness.
+	\item \sys can be updated in an incremental manner. It only needs to train an additional set of parameters for the newly added traffic type. 
+	\item \sys is an interpretable model. It can rank features for each traffic type, identify important features for classification, and depict the inter-class distance between traffic types in specific dimensions. 
+	\item \sys achieves excellent results on the real-world network traffic dataset and outperforms several state-of-the-art methods.
+\end{itemize}
+
+The rest of this paper is organized as follows: Section~\ref{sec:Related_Work} and Section~\ref{sec:Preliminaries} list some related works and preliminaries, respectively. 
+The detailed design of \sys is introduced in Section~\ref{sec:Proposed_Traffic_Classification_Method}. 
+Section~\ref{sec:Model_Interpretability} presents model interpretability.  
+In Section~\ref{sec:Evaluation}, we exhibit validation results. 
+After a brief discussion in Section~\ref{sec:Discussion}, we conclude the paper in Section~\ref{sec:Conclusions}.
+
+

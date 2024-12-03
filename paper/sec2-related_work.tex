@@ -1,0 +1,58 @@
+\section{Related Work}
+\label{sec:Related_Work}
+\subsection{Traffic Classification}
+%In this section, we briefly summarize the traffic classification methods in unencrypted and encrypted network environments.
+\subsubsection{Unencrypted Traffic Classification}
+The basic idea of unencrypted traffic classification is to exploit useful information from packet headers and payloads. 
+The port-based methods classify traffic by checking the TCP/UDP port number at the transport layer~\cite{mcpherson2004portvis}. 
+Unfortunately, port-hopping techniques~\cite{constantinou2006identifying} make the port-based methods ineffective. 
+The payload-based methods~\cite{finsterbusch2013survey, zhang2013unsupervised} inspect the contents in packet payloads with a predefined rule set, and then use rule-matching results as traffic decisions. The design of the rule set affects the accuracy of the payload-based methods. 
+In addition, such approaches fail in encrypted traffic classification as the payloads are encrypted.
+
+\subsubsection{Encrypted Traffic Classification}
+In 2014, Korczynski \etal proposed an encrypted traffic classification method based on the first-order Markov chain~\cite{korczynski2014markov}.  
+They used message-type sequences of encrypted traffic to build a first-order Markov model for classification. 
+Subsequently, Shen \etal proposed a similar but improved method based on the second-order Markov chain~\cite{shen2017classification} with new features including certificate length and the first packet length.  
+Chang \etal combined both message type sequences and length sequences to build Markov models and got better performance~\cite{liu2018mampf}.  
+However, all those Markov-based methods are with small orders (\eg 1 or 2) and thus they cannot deal with the long-term relationship.
+
+In addition to the Markov chain, many other machine learning algorithms were used in encrypted traffic classification.  
+Liu \etal proposed a semi-supervised method for encrypted traffic classification with carefully selected features which include the maximum, minimum,  and average of sent and received bytes~\cite{liu2012semi}.  
+Anderson \etal took flow metadata, packet length distribution,  and time distribution into consideration and analyzed encrypted malware traffic with the logistic regression algorithm~\cite{anderson2018deciphering}. 
+However, these ML-based methods are especially dependent on feature selection which relies on sophisticated experience.
+
+In recent years, the research on encrypted traffic classification is evolving towards the direction of deep learning. 
+In 2019, Chang \etal applied the recurrent neural network to the encrypted traffic classification problem and propose the Flow Sequence Network (FS-Net)~\cite{liu2019fs}. The FS-Net is an end-to-end classification model that learns representative features from the raw packet size sequences of encrypted traffic.
+Unlike FS-Net, TSCRNN~\cite{lin2021tscrnn} learned from raw payloads.
+In 2020, Wenbo \etal proposed the Flow-Based Relation Network (RBRN), which uses the meta-learning approach to address the problems of encrypted traffic classification including imbalanced network data, model generalization, and overly dependent on data size~\cite{zheng2020learning}.
+In 2021, Shen \etal utilized different graph structures (\eg spindle-shaped, fish-shaped) as input features for traffic classification~\cite{shen2021accurate}.
+In 2022, Lin \etal proposed a new traffic representation model called ET-BERT, which utilizes pre-training transformers and the contextualized datagram representation to classify the encrypted traffic~\cite{lin2022bert}.
+However,  these DL-based methods usually lack interpretability and cannot conduct the learning incrementally.
+
+Our work incorporates the idea of learning traffic fingerprints. 
+However, unlike the previous work modeling the fingerprints of traffic with Markov chains, we adopt LSTM to learn the fingerprints of traffic, which can deal with the long-term relationship. 
+Our work is an end-to-end traffic classification network that learns fingerprints from the raw session sequences. 
+Compared with the previous deep-learning-based work in traffic classification~\cite{fu2021realtime} and anomaly detection~\cite{du2017deeplog}, we focus on incremental learning and model interpretability. 
+
+\subsection{Incremental Learning}
+A variety of strategies have been explored to train the model incrementally~\cite{li2017learning, dhar2019learning, gu2021class}. 
+Li \etal proposed Learning without Forgetting (LwF), which uses the new data to supervise the learning of the new tasks and to provide unsupervised output guidance on the previous tasks~\cite{li2017learning}. 
+Further, Dhar \etal introduced Learning without Memorizing, which extends LwF by adding a distillation term based on attention maps~\cite{dhar2019learning}. 
+Yanan \etal proposed an incremental method for the instance segmentation task, which uses multi-teacher networks and achieves excellent performance on instance segmentation datasets~\cite{gu2021class}. 
+However, previous work on incremental learning mainly focuses on computer vision tasks. The data format of network traffic is significantly different from that of images. Therefore, existing incremental learning techniques cannot be applied directly to network traffic classification. 
+It is both challenging and meaningful to explore incremental learning models for network traffic classification.
+
+\subsection{Model Interpretability}
+The model interpretability can be classified as global interpretability and local interpretability.
+The global level of interpretability is to give a holistic view of the input features. %about understanding how the model makes decisions, based on a holistic view of the input features. 
+The output of the global interpretability is usually feature ranking and selection results. 
+Previous feature selection algorithms can be roughly divided into three ways: filter-based, wrapper-based and embedded. 
+Filter-based feature selection algorithms remove features suspected to be irrelevant based on metrics such as mutual information~\cite{kraskov2004estimating}. 
+Wrapper-based feature selection algorithms iteratively select features through retraining the model across different feature subsets~\cite{guyon2002gene}. 
+Embedded feature selection algorithms select important features as the model is trained~\cite{louppe2014understanding}.
+The local level of interpretability is about understanding the importance of each feature in a single prediction of a model.
+There are some well-known local interpretability methods like LIME~\cite{lime}, SHAP~\cite{shap}, feature permutation~\cite{altmann2010permutation}, etc.
+However, previous model interpretability algorithms are mainly applicable to tabular data. 
+The network traffic data, however, is time series. 
+Existing model interpretability methods do not consider the temporal characteristics of data.
+Thus they may be incapable of interpreting the network traffic classification task.
