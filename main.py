@@ -4,6 +4,7 @@ import logging
 from train_test import knn_learning, knn_predict, rf_learning, rf_predict, mlp_learning, mlp_predict, lstm_learning, \
     lstm_predict, fingerprint_learning, fingerprint_predict
 from utils import check_path, parse_str_dim, get_logger
+from prepare_process import prepare_process
 
 if __name__ == '__main__':
     args = argparse.ArgumentParser()
@@ -25,7 +26,6 @@ if __name__ == '__main__':
     args.add_argument('--model_path', type=str, required=True)
     args.add_argument('--model_name', type=str, required=True)
     args.add_argument('--save_path', type=str, required=False, default='.')
-
     args.add_argument('--save_name', type=str, required=False, default=None)
     args.add_argument('--feature_choice', type=str, required=False, default=None,
                       help='name of choice file without suffix .joblib')
@@ -42,41 +42,9 @@ if __name__ == '__main__':
     args.add_argument('--perturbation', type=float, required=False, default=0)
     args.add_argument('--debug', type=bool, required=False, default=False)
     args = args.parse_args()
-
-    logger = get_logger('kl_test', level=logging.INFO)
-
-    if args.class_choice != 'all':
-        args.class_choice = args.class_choice.split(',')
-
-    check_path(args.model_path)
-    check_path(args.save_path)
-
-    if args.test and args.save_name is None:
-        logger.error('[ERROR] no save name in test mode!')
-        exit(1)
-    if (args.train and args.finetune) or (args.train and args.incremental) or (args.finetune and args.incremental):
-        logging.error('[ERROR] only support choose one train mode!')
-        exit(1)
-    # convert all str args to int args
-    args.input_dim = parse_str_dim(args.input_dim)
-    args.encoding_dim = parse_str_dim(args.encoding_dim)
-    args.seq_dim = parse_str_dim(args.seq_dim)
-    args.n_epochs = parse_str_dim(args.n_epochs)
-
-    if args.gpu is None:
-        args.gpu = False
-    else:
-        os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu
-        args.gpu = True
-
-    if args.no_encoding:
-        args.encoding = False
-    else:
-        args.encoding = True
-    logger.info('*' * 50 + '详细参数信息' + '*' * 50)
-    for arg, value in vars(args).items():
-        logger.info(f"init args----------------------{arg}<- {value}" if args.debug else None)
-    logger.info('*' * 50 + '详细参数结束' + '*' * 50)
+    # start the logger to output run information
+    args.logger = get_logger('kl_test', level=logging.INFO)
+    args = prepare_process(args)
     if args.knn:
         if args.train:
             knn_learning(args.data_dir, args.class_choice, args.scale,
@@ -117,10 +85,13 @@ if __name__ == '__main__':
 
     if args.fingerprint:
         if args.train or args.incremental:
-            fingerprint_learning(logger, args.data_dir, args.class_choice, args.scale, args.batch_size,
-                                 args.input_dim, args.encoding_dim, args.seq_dim,
-                                 args.model_path, args.model_name, args.n_epochs, args.lr,
-                                 args.fields_file, args.feature_choice, args.gpu, args.encoding, args.incremental
+            fingerprint_learning(logger=args.logger, data_dir=args.data_dir, class_choice=args.class_choice,
+                                 scale=args.scale, batch_size=args.batch_size,
+                                 input_dims=args.input_dim, encoding_dims=args.encoding_dim, seq_dims=args.seq_dim,
+                                 model_path=args.model_path, model_name=args.model_name, n_epochs=args.n_epochs,
+                                 lr=args.lr,
+                                 fields_file=args.fields_file, feature_choice=args.feature_choice, gpu=args.gpu,
+                                 encoding=args.encoding, incremental=args.incremental
                                  )
         if args.test:
             # test in both train and test data

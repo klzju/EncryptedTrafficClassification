@@ -530,6 +530,7 @@ def fingerprint_learning(logger, data_dir, class_choice, scale, batch_size, inpu
                          model_path, model_name, n_epochs, lr, fields_file,
                          feature_choice=None, gpu=False, encoding=True, incremental=False):
     """
+    :param logger:logs_printer
     :param data_dir: str
     :param class_choice: str all or list of chosen classes
     :param scale: str prefix of scale factor without suffix .npy

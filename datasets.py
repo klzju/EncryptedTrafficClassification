@@ -14,6 +14,7 @@ class TrafficDataset(torch.utils.data.Dataset):
         :param data_dir: str
         :param class_choice: str 'all' or list ['class a', 'class b']
         :param scale: str name of scale factor file without '.npy'
+
         :param fields_file: str full path of fields file
         :param mode: str 'train' 'test' 'all'
         :param perturbation: float
@@ -42,7 +43,7 @@ class TrafficDataset(torch.utils.data.Dataset):
                 tmp_data = tmp_data[int(tmp_data.shape[0] * TRAIN_RATIO):]
             max_seq_len = max(max_seq_len, tmp_data.shape[1])
             total_samples += tmp_data.shape[0]
-        
+
             for i in range(len(fields)):
                 tmp_data[:, :, i] /= scale_factor[i]
             # perturbation

@@ -43,7 +43,7 @@ pip install -r requirements.txt
 需要针对每一个类别的数据单独运行
 
 ```shell
-python dataset_gen.py --pcap_dir=单个类别pcaps的目录路径 \
+python dataset_preprocess.py --pcap_dir=单个类别pcaps的目录路径 \
         --csv_dir=中间生成的csv文件保存目录路径 \
         --data_name=类别名称 \
         --data_dir=生成的数据保存目录路径 \
@@ -53,7 +53,7 @@ python dataset_gen.py --pcap_dir=单个类别pcaps的目录路径 \
 kl test
 
 ```shell
-python dataset_gen.py --pcap_dir=/media/kl/7c5ed3c9-49bd-46de-bbdd-976fbc893c6d/database/IDS-2017 \
+python dataset_preprocess.py --pcap_dir=/media/kl/7c5ed3c9-49bd-46de-bbdd-976fbc893c6d/database/IDS-2017 \
                       --csv_dir=./csv \
                       --data_name=test \
                       --tshark_path='/usr/bin/tshark' \

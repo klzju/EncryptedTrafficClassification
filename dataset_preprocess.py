@@ -108,7 +108,7 @@ def session_feature_extract(data, idx, session, fields):
 
 def feature_extract(csv_dir, data_name, data_dir, fields_file):
     fields = get_fields_list(fields_file)
-    df = pd.read_csv(os.path.join(csv_dir, data_name + '.csv'), nrows=10000 if args.debug else None)
+    df = pd.read_csv(os.path.join(csv_dir, data_name + '.csv'))
     df = df.fillna(-1)
     logging.info('Total {0} packets'.format(len(df)))
     df['tcp.stream'] = df['tcp.stream'].astype('int')
@@ -156,7 +156,7 @@ def gen_fsnet_dataset(data_dir):
 def check_args(args):
     logging.info("详细参数信息：")
     for arg, value in vars(args).items():
-        logging.info(f"init args:{arg}-> {value}" if args.debug else None)
+        logging.info(f"init args:{arg}-> {value}")
         # print(f"{arg}: {value}")
     if args.fsnet:
         gen_fsnet_dataset(args.data_dir)
@@ -175,14 +175,14 @@ def check_args(args):
 if __name__ == '__main__':
     args = argparse.ArgumentParser()
     args.add_argument('--pcap_dir', type=str, required=False,
-                      default='/media/kl/7c5ed3c9-49bd-46de-bbdd-976fbc893c6d/database/IDS-2017')
+                      default='/media/kl/7c5ed3c9-49bd-46de-bbdd-976fbc893c6d/database/IDS-2017/pcap')
     args.add_argument('--csv_dir', type=str, required=False, default='./csv')
     args.add_argument('--tshark_path', type=str, required=False, default='/usr/bin/tshark')
     args.add_argument('--data_name', type=str, required=False, default='test')
     args.add_argument('--data_dir', type=str, required=False, default='./data')
     args.add_argument('--fields_file', type=str, required=False, default='./ids_fields.txt')
     args.add_argument('--fsnet', action='store_true', required=False, default=False)
-    args.add_argument('--debug', type=bool, required=False, default=True)
+    args.add_argument('--debug', type=bool, required=False, default=False)
     args = args.parse_args()
     check_args(args)
     pcap_files = sorted(os.listdir(args.pcap_dir))
